@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class ResponseUtils {
 
-    public static <T> ApiResponse<T> success(T response) {
+    public static <T> ApiResponse<?> success(T response) {
         return new ApiResponse<>(200, "OK", response);
     }
 

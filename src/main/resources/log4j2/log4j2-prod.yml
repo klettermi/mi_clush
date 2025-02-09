@@ -72,7 +72,7 @@ configure:
       level: OFF
       appenderRef:
         - ref: console-appender
-        - ref: rolling-file-appendar
+        - ref: rolling-file-appender
 
     # [Loggers - Loggers] 특정 패키지나 클래스에 대한 로그를 정의
     logger:
