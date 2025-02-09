@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: mi_clush
+
+---
+spring:
+  profiles:
+    active: prod
+
+---
+spring:
+  profiles:
+    active: dev

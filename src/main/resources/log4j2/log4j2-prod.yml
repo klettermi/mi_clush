@@ -1,0 +1,92 @@
+configure:
+  # 구성 이름
+  name: api-prod
+
+  # [Properties] 설정에 사용되는 속성들을 정의
+  properties:
+    property:
+      - name: "log-path"
+        value: "./logs/dev"
+      - name: "charset-UTF-8"
+        value: "UTF-8"
+      - name: "layout-pattern"
+        value: "%style{%d}{black} %highlight{%-5level} [%style{%t}{bright,blue}] %style{%C}{bright,yellow}: %msg%n%throwable"
+      - name: "info-log"
+        value: ${log-path}/tugboatApi/api-info.log
+      - name: "error-log"
+        value: ${log-path}/tugboatApi/api-error.log
+      - name: "auth-log"
+        value: ${log-path}/tugboatApi/api-auth.log
+      - name: "json-log"
+        value: ${log-path}/tugboatApi/api-json-info.log
+
+  # [Appenders] 로그 기록방식 정의
+  appenders:
+    # [Appenders - Console] 콘솔에 로그를 출력하는 방식 정의
+    console:
+      - name: console-appender
+        target: SYSTEM_OUT
+        patternLayout:
+          pattern: ${layout-pattern}
+
+    # [Appenders - RollingFile] 로그를 파일들을 압축파일로 출력하는 방식 정의
+    rollingFile:
+      name: rolling-file-appender
+      fileName: ${log-path}/rolling-file-log.log
+      filePattern: "${log-path}/archive/rollingFile.log.%d{yyyy-MM-dd-hh-mm}_%i.gz"
+      patternLayout:
+        charset: ${charset-UTF-8}
+        pattern: ${layout-pattern}
+      policies:
+        SizeBasedTriggeringPolicy:
+          size: "200KB"
+        TimeBasedTriggeringPolicy:
+          interval: "1"
+      defaultRollOverStrategy:
+        max: "30"
+        fileIndex: "max"
+
+    # [Appenders - File] 로그를 파일로 기록하는 방식 정의
+    file:
+      - name: file-info-appender
+        fileName: ${info-log}
+        patternLayout:
+          pattern: "%d %p %C{1.} [%t] %m%n"
+      - name: file-error-appender
+        fileName: ${error-log}
+        patternLayout:
+          pattern: "%d %p %C{1.} [%t] %m%n"
+      - name: file-auth-appender
+        fileName: ${auth-log}
+        patternLayout:
+          pattern: "%d %p %C{1.} [%t] %m%n"
+      - name: file-json-info-appender
+        fileName: ${json-log}
+        patternLayout:
+          pattern: "%d %p %C{1.} [%t] %m%n"
+
+  # [Loggers] 로그 출력 범위를 정의
+  loggers:
+    # [Loggers - Root] 모든 로그를 기록하는 최상위 로그를 정의
+    root:
+      level: OFF
+      appenderRef:
+        - ref: console-appender
+        - ref: rolling-file-appendar
+
+    # [Loggers - Loggers] 특정 패키지나 클래스에 대한 로그를 정의
+    logger:
+      - name: org.springframework
+        additivity: "false"
+        level: INFO
+        appenderRef:
+          - ref: console-appender
+          - ref: file-info-appender
+          - ref: file-error-appender
+      - name: com.adjh.multiflexapi
+        additivity: "false"
+        level: DEBUG
+        AppenderRef:
+          - ref: console-appender
+          - ref: file-info-appender
+          - ref: file-error-appender
