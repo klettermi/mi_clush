@@ -12,7 +12,27 @@ spring:
       hibernate:
         format_sql: true  # SQL 가독성 증가
     open-in-view: false
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: argerdle@naver.com
+    password: SpringBoot97!!
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            trust: smtp.gmail.com
 
+jwt:
+  token:
+    expiration:
+      time: 36000000 # 1시간 (밀리초 단위)
+  secret:
+    key: "M2FhYmYzZTlhYmI4N2EwZGJlNjYwZDg0YTk5MGNiMjVjYmI3YzJhNzY4Yjk0ZmEwYmZiZmQ="
 
 logging:
   config: classpath:log4j2/log4j2-dev.yml

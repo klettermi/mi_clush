@@ -6,9 +6,30 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: validate  # 초기 개발 시에는 update, 운영 환경에서는 validate 사용
-    show-sql: false  # SQL 로그 출력
+      ddl-auto: validate
+    show-sql: false
     open-in-view: false
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: argerdle@naver.com
+    password: SpringBoot97!!
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            trust: smtp.gmail.com
+
+jwt:
+  token:
+    expiration:
+      time: 3600000 # 1시간 (밀리초 단위)
+  secret:
+    key: "M2FhYmYzZTlhYmI4N2EwZGJlNjYwZDg0YTk5MGNiMjVjYmI3YzJhNzY4Yjk0ZmEwYmZiZmQ="
 
 logging:
   config: classpath:log4j2/log4j2-prod.yml
