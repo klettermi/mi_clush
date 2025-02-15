@@ -38,4 +38,8 @@ public class ResponseUtils {
     public static ApiResponse<?> error(HttpStatus httpStatus, Map<String, String>  errors) {
         return new ApiResponse<>(httpStatus.value(), null, errors);
     }
+
+    public static ApiResponse<?> success() {
+        return new ApiResponse<>(200, "OK", null);
+    }
 }
