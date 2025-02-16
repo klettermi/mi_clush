@@ -1,10 +1,12 @@
 package mi.mi_clush.domain.notification.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class EmailService {
@@ -20,7 +22,7 @@ public class EmailService {
 
             mailSender.send(mimeMessage);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("이메일 전송 중 오류 발생: {}", e.getMessage(), e);
         }
     }
 }
