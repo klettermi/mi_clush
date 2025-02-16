@@ -58,7 +58,7 @@ class NotificationServiceTest {
                 .description("test description")
                 .startTime(LocalDateTime.now())
                 .endTime(LocalDateTime.now().plusHours(1))
-                .repeat(RepeatType.NONE)
+                .repeatType(RepeatType.NONE)
                 .reminderTime(1)
                 .build();
 

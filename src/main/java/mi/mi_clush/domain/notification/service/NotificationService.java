@@ -1,6 +1,7 @@
 package mi.mi_clush.domain.notification.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import mi.mi_clush.domain.event.entity.Event;
 import mi.mi_clush.domain.event.repository.EventRepository;
 import mi.mi_clush.domain.notification.dto.NotificationReqDto;
@@ -8,6 +9,7 @@ import mi.mi_clush.domain.notification.entity.Notification;
 import mi.mi_clush.domain.notification.repository.NotificationRepository;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class NotificationService {
@@ -31,6 +33,7 @@ public class NotificationService {
     }
 
     public void sendNotifications(Notification notification) {
+        log.info("메일 전송 시작");
         Event event = notification.getEvent();
         String recipientEmail = event.getUser().getEmail(); // 이벤트 작성자의 이메일
 

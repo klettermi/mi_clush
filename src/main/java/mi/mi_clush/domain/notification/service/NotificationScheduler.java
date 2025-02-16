@@ -3,13 +3,11 @@ package mi.mi_clush.domain.notification.service;
 import lombok.RequiredArgsConstructor;
 import mi.mi_clush.domain.event.entity.Event;
 import mi.mi_clush.domain.notification.entity.Notification;
-import mi.mi_clush.domain.notification.entity.NotificationMethod;
 import mi.mi_clush.domain.notification.repository.NotificationRepository;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,7 +21,7 @@ public class NotificationScheduler {
 
         for (Notification notification : notificationRepository.findAll()) {
             Event event = notification.getEvent();
-            LocalDateTime eventTime = event.getStartTime();
+            LocalDateTime eventTime = event.getStartTime().toLocalDate().atStartOfDay();
 
             LocalDateTime notificationTime = eventTime.minusMinutes(notification.getRelativeTime());
 
