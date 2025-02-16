@@ -36,7 +36,7 @@ public class Event {
     private Boolean isAllDay;
 
     @Enumerated(EnumType.STRING)
-    private RepeatType repeat;
+    private RepeatType repeatType;
 
     private Integer reminderTime;
 
@@ -45,7 +45,7 @@ public class Event {
         this.description = description;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.repeat = repeat;
+        this.repeatType = repeat;
         this.reminderTime = reminderTime;
     }
 }
