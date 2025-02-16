@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import static jakarta.servlet.http.HttpServletResponse.*;
 import static mi.mi_clush.global.enums.ErrorCode.USER_LOGIN_FAILURE;
@@ -31,22 +32,22 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
 	// 로그인 시도
 	@Override
-	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws
-			AuthenticationException {
+	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
 		log.info("로그인 시도");
 		try {
 			LoginRequestDto requestDto = objectMapper.readValue(request.getInputStream(), LoginRequestDto.class);
 
+			// AuthenticationManager로 인증 처리
 			return getAuthenticationManager().authenticate(
-				new UsernamePasswordAuthenticationToken(
-					requestDto.getEmail(),
-					requestDto.getPassword(),
-					null
-				)
+					new UsernamePasswordAuthenticationToken(
+							requestDto.getEmail(),
+							requestDto.getPassword(),
+							new ArrayList<>() // 이 부분에서 기본적으로 권한을 null로 설정하는 대신 빈 리스트를 설정합니다.
+					)
 			);
 		} catch (IOException e) {
-			log.error(e.getMessage());
-			throw new RuntimeException(e.getMessage());
+			log.error("로그인 실패 - 요청 처리 오류: {}", e.getMessage());
+			throw new RuntimeException("로그인 처리 중 오류가 발생했습니다.", e);
 		}
 	}
 
