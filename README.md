@@ -31,8 +31,6 @@
 
 - **Java Development Kit (JDK)**: 최소 JDK 11 이상을 설치해야 합니다.
     - [JDK 다운로드](https://adoptopenjdk.net/)
-- **Maven**: 의존성 관리 및 빌드 도구입니다.
-    - [Maven 다운로드](https://maven.apache.org/download.cgi)
 - **Git**: 소스 코드를 다운로드하는 데 필요합니다.
     - [Git 다운로드](https://git-scm.com/)
 - **IDE (선택 사항)**: IntelliJ IDEA, Eclipse 등의 Java IDE를 사용할 수 있습니다.
