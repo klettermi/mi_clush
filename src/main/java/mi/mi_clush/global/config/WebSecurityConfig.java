@@ -15,6 +15,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -35,8 +36,15 @@ public class WebSecurityConfig {
 
     private static final String[] PERMIT_URL_ARRAY = {
             "/v3/api-docs/**",
-            "/swagger-ui/**"
+            "/swagger-ui/**",
+            "/swagger-ui.html"
     };
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return (web) -> web.ignoring()
+                .requestMatchers(PERMIT_URL_ARRAY);
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -89,18 +97,28 @@ public class WebSecurityConfig {
         // 요청 관리
         http.authorizeHttpRequests((authorizeHttpRequests) ->
                 authorizeHttpRequests
-                        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // resources 접근 허용
-                        .anyRequest().authenticated() // 그외 모든 요청 인증 처리
+                        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()  // static resources 접근 허용
+                        .requestMatchers(PERMIT_URL_ARRAY).permitAll()  // Swagger 관련 URL 허용
+                        .requestMatchers("/api/auth/login").permitAll()  // 로그인 API 허용
+                        .requestMatchers("/api/users/register").permitAll()  // 회원가입 API 허용
+                        .anyRequest().authenticated()  // 그 외 요청 인증 필요
         );
 
         // 필터 관리
-        http.addFilter(corsConfig.corsFilter());
+        http.addFilter(corsConfig.corsFilter());  // CORS 필터 추가
+
+        // 로그인 필터 (JWT 토큰을 발급하는 필터)
+        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+
+        // JWT 토큰 검증 필터 (로그인과 회원가입 API에서 제외)
         http.addFilterBefore(jwtAuthorizationFilter(), JwtAuthenticationFilter.class);
-        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling((exception) -> // 인증 없는 접근 제한
-                        exception
-                                .authenticationEntryPoint(customAuthenticationEntryPoint));
+
+        // 인증 실패 시 처리
+        http.exceptionHandling((exception) ->
+                exception.authenticationEntryPoint(customAuthenticationEntryPoint));
 
         return http.build();
     }
+
+
 }
