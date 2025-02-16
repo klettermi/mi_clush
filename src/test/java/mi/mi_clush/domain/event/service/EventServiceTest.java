@@ -56,7 +56,7 @@ class EventServiceTest {
                 .description("test description")
                 .startTime(LocalDateTime.now())
                 .endTime(LocalDateTime.now().plusHours(1))
-                .repeat(RepeatType.NONE)
+                .repeatType(RepeatType.NONE)
                 .reminderTime(1)
                 .build();
 
@@ -144,7 +144,7 @@ class EventServiceTest {
                 .description("test description2")
                 .startTime(LocalDateTime.now())
                 .endTime(LocalDateTime.now().plusHours(1))
-                .repeat(RepeatType.NONE)
+                .repeatType(RepeatType.NONE)
                 .reminderTime(1)
                 .build();
 
@@ -201,7 +201,7 @@ class EventServiceTest {
                 .description("test description2")
                 .startTime(LocalDateTime.now())
                 .endTime(LocalDateTime.now().plusHours(1))
-                .repeat(RepeatType.NONE)
+                .repeatType(RepeatType.NONE)
                 .reminderTime(1)
                 .build();
 

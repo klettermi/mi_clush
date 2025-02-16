@@ -5,6 +5,8 @@ import mi.mi_clush.domain.event.dto.EventReqDto;
 import mi.mi_clush.domain.event.dto.EventResDto;
 import mi.mi_clush.domain.event.entity.Event;
 import mi.mi_clush.domain.event.repository.EventRepository;
+import mi.mi_clush.domain.notification.entity.Notification;
+import mi.mi_clush.domain.notification.repository.NotificationRepository;
 import mi.mi_clush.domain.user.entity.User;
 import mi.mi_clush.domain.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 public class EventService {
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
+    private final NotificationRepository notificationRepository;
 
     @Transactional
     public EventResDto createEvent(Long id, EventReqDto request) {
@@ -30,7 +33,7 @@ public class EventService {
                 .description(request.getDescription())
                 .startTime(request.getStartTime())
                 .endTime(request.getEndTime())
-                .repeat(request.getRepeat())
+                .repeatType(request.getRepeat())
                 .reminderTime(request.getReminderTime())
                 .build();
 
@@ -64,7 +67,9 @@ public class EventService {
     @Transactional
     public void deleteEvent(Long id, Long eventId) {
         Event event = getEventIfOwner(id, eventId);
+        List<Notification> notifications = notificationRepository.findByEvent(event);
 
+        notificationRepository.deleteAll(notifications);
         eventRepository.delete(event);
     }
 

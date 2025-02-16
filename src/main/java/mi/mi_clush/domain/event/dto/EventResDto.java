@@ -25,7 +25,7 @@ public class EventResDto {
                 .description(savedEvent.getDescription())
                 .startTime(savedEvent.getStartTime())
                 .endTime(savedEvent.getEndTime())
-                .repeat(savedEvent.getRepeat())
+                .repeat(savedEvent.getRepeatType())
                 .reminderTime(savedEvent.getReminderTime())
                 .build();
     }
