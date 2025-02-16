@@ -27,9 +27,6 @@ public class UserDetailsImpl implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// Collection<GrantedAuthority> authorities = new ArrayList<>();
-		// return authorities;
-		// role 구분 없음.
 		return null;
 	}
 
