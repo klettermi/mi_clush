@@ -1,5 +1,8 @@
 spring:
   datasource:
+    hikari:
+      data-source-properties:
+        serverTimezone: Asia/Seoul
     url: jdbc:mysql://localhost:3306/calendar?serverTimezone=Asia/Seoul
     username: root
     password: 1234
@@ -12,8 +15,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: argerdle@naver.com
-    password: SpringBoot97!!
+    username: lurxngmi@gmail.com
+    password: Cjssus97!!
     protocol: smtp
     properties:
       mail:
@@ -33,3 +36,10 @@ jwt:
 
 logging:
   config: classpath:log4j2/log4j2-prod.yml
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
